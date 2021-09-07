@@ -12,6 +12,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected array $categories = [
+        'политика',
+        'спорт',
+        'экономика',
+        'технологии',
+        'искусство'
+    ];
+
     protected function getNews () : array
     {
         $faker = Factory::create('ru_RU');
@@ -19,12 +27,19 @@ class Controller extends BaseController
         for($i = 0; $i < mt_rand(5, 10); $i++)
         {
             $data[] = [
+                    'id' => $i+1,
                     'title' => $faker->jobTitle(),
+                    'category' => $this->categories[array_rand($this->categories)],
                     'description' => $faker->sentence(3),
                     'author' => $faker->name(),
                     'created_at' => now()
                 ];
         }
         return $data;
+    }
+
+    public function getCategories () : array
+    {
+        return $this->categories;
     }
 }
