@@ -13,9 +13,11 @@ class NewsController extends Controller
         ]);
     }
 
-    public function show (int $id)
+    public function show(int $id)
     {
-        return "Новость - {$id}";
+        return view('news.show', [
+            'id' => $id
+        ]);
     }
 
     public function showCategories ()

@@ -14,7 +14,9 @@ class NewsController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.news.index', [
+           'newsList' => $this->getNews()
+        ]);
     }
 
     /**
@@ -44,9 +46,9 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id) : string
     {
-        //
+        return "Новость с id = {$id}";
     }
 
     /**
