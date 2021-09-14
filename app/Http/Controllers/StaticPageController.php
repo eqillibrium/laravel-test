@@ -10,4 +10,12 @@ class StaticPageController extends Controller
     {
         return view('static.about');
     }
+    public function feedback()
+    {
+        return view('static.feedback');
+    }
+    public function dataRequestForm()
+    {
+        return view('static.dataRequestForm');
+    }
 }

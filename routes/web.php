@@ -40,3 +40,7 @@ Route::get('/news/{id}', [NewsController::class, 'show'])
 //static
 Route::get('/about', [StaticPageController::class, 'about'])
     ->name('about');
+Route::get('/feedback', [StaticPageController::class, 'feedback'])
+    ->name('feedback');
+Route::get('/dataRequestForm', [StaticPageController::class, 'dataRequestForm'])
+    ->name('dataRequestForm');
