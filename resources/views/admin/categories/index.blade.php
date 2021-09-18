@@ -13,7 +13,9 @@
                 <table class="table table-bordered">
                     <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Название категории</th>
+                        <th>Дата создания</th>
                         <th>Действия</th>
                     </tr>
                     </thead>
@@ -21,9 +23,11 @@
                     <tbody>
                         @forelse($categoryList as $category)
                             <tr>
-                                <td>{{ $category }}</td>
+                                <td>{{ $category->id }}</td>
+                                <td>{{ $category->title }}</td>
+                                <td>{{ $category->created_at }}</td>
                                 <td>
-                                    <a href="">Ред.</a>
+                                    <a href="{{ route('admin.categories.edit', ['category' => $category->id])  }}">Ред.</a>
                                     &nbsp;
                                     <a href="">Уд.</a>
                                 </td>
