@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class SourceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,10 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::withCount('news')->get();
-        return view('admin.categories.index', [
-            'categoryList' => $categories
-        ]);
+        //
     }
 
     /**
@@ -48,7 +44,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
         //
     }
@@ -59,11 +55,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        return view('admin.categories.edit', [
-            'category' => $category
-        ]);
+        //
     }
 
     /**
@@ -73,21 +67,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        $category = $category->fill(
-            $request->only(['title', 'description'])
-        )->save();
-
-        if($category) {
-            return redirect()
-                ->route('admin.categories.index')
-                ->with('success', 'Редактирование записи удалось');
-        }
-
-        return back()
-            ->with('error', 'Редактирование записи не удалось')
-            ->withInput();
+        //
     }
 
     /**
@@ -96,7 +78,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
         //
     }

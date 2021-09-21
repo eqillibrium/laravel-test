@@ -7,8 +7,43 @@
     </div>
     <div class="row">
         <div class="col-md-12">
+            @include('inc.messages')
             <form method="post" action="{{ route('admin.news.store') }}">
                 @csrf
+                <div class="form-group">
+                    <label for="category_id">Категория</label>
+                    <select
+                        class="form-control"
+                        name="category_id"
+                        id="category_id"
+                    >
+                        @foreach($categories as $category)
+                            <option
+                                value="{{ $category->id }}"
+                                @if(old('category_id') === $category->id) selected @endif
+                            >
+                                {{ $category->title }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category_id">Источник</label>
+                    <select
+                        class="form-control"
+                        name="source_id"
+                        id="source_id"
+                    >
+                        @foreach($sources as $source)
+                            <option
+                                value="{{ $source->id }}"
+                                @if(old('source_id') === $source->id) selected @endif
+                            >
+                                {{ $source->title }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="title">Заголовок</label>
                     <input

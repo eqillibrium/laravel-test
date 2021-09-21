@@ -15,6 +15,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Название категории</th>
+                        <th>Новостей</th>
                         <th>Дата создания</th>
                         <th>Действия</th>
                     </tr>
@@ -24,7 +25,8 @@
                         @forelse($categoryList as $category)
                             <tr>
                                 <td>{{ $category->id }}</td>
-                                <td>{{ $category->title }}</td>
+                                <td>{{ $category->title }} </td>
+                                <td>{{ $category->news_count  }} </td>
                                 <td>{{ $category->created_at }}</td>
                                 <td>
                                     <a href="{{ route('admin.categories.edit', ['category' => $category->id])  }}">Ред.</a>

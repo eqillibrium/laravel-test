@@ -11,13 +11,4 @@ class Source extends Model
 
     protected $table = "sources";
 
-    public function getSource()
-    {
-        return \DB::table($this->table)->get();
-    }
-
-    public function getSourceById($id)
-    {
-        return \DB::table($this->table)->find($id);
-    }
 }

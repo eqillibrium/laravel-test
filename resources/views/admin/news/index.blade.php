@@ -10,11 +10,13 @@
 </div>
 <div class="row">
     <div class="col-md-12">
+        @include('inc.messages')
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                 <tr>
                     <th>#ID</th>
+                    <th>Категория</th>
                     <th>Заголовок</th>
                     <th>Описание</th>
                     <th>Дата добавления</th>
@@ -26,13 +28,14 @@
                 @forelse($newsList as $news)
                     <tr>
                         <td>{{ $news->id }}</td>
+                        <td>{{ optional($news->category)->title }}</td>
                         <td>{{ $news->title }}</td>
                         <td>{!! $news->description  !!}</td>
                         <td>{{ $news->created_at }}</td>
                         <td>
-                            <a href="">Ред.</a>
+                            <a href="{{ route('admin.news.edit', ['news' => $news]) }}">Ред.</a>
                             &nbsp;
-                            <a href="">Уд.</a>
+                            <button class="btn btn-danger deleteBtn" data-id="{{ $news->id }}" data-token="{{ csrf_token() }}">Х</button>
                         </td>
                     </tr>
                 @empty
@@ -41,7 +44,31 @@
                 </tbody>
 
             </table>
+            {!! $newsList->links() !!}
         </div>
     </div>
 </div>
 @endsection
+
+<script>
+    window.onload = function () {
+        document.querySelectorAll('.deleteBtn').forEach( btn => {
+            btn.addEventListener('click', async function () {
+                const data = {
+                    id: this.dataset.id,
+                    _method: "DELETE",
+                    _token: this.dataset.token
+                }
+                const response = await fetch(`news/${data.id}`, {
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                const json = await response.json();
+                console.log(json)
+            })
+        })
+    }
+</script>
