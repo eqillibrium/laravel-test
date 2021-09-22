@@ -132,8 +132,11 @@ class NewsController extends Controller
     public function destroy($id)
     {
         News::destroy($id);
-        return redirect()
+        redirect()
             ->route('admin.news.index')
-            ->with('success', 'Запись обновлена');
+            ->with('success', 'Запись успешно удалена');
+        return response()->json([
+            'status' => 'success'
+        ]);
     }
 }

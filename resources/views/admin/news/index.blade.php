@@ -54,20 +54,28 @@
     window.onload = function () {
         document.querySelectorAll('.deleteBtn').forEach( btn => {
             btn.addEventListener('click', async function () {
-                const data = {
-                    id: this.dataset.id,
-                    _method: "DELETE",
-                    _token: this.dataset.token
-                }
-                const response = await fetch(`news/${data.id}`, {
-                    method: "POST",
-                    body: JSON.stringify(data),
-                    headers: {
-                        'Content-Type': 'application/json'
+                try {
+                    const data = {
+                        id: this.dataset.id,
+                        _method: "DELETE",
+                        _token: this.dataset.token
                     }
-                })
-                const json = await response.json();
-                console.log(json)
+                    const response = await fetch(`news/${data.id}`, {
+                        method: "POST",
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    const json = await response.json();
+                    if(json.status === 'success') {
+                        document.location.href = 'news'
+                        console.log('redirect')
+                    }
+                } catch (e) {
+                    console.log(e)
+                }
+
             })
         })
     }
