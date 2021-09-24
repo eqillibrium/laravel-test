@@ -20,6 +20,9 @@
                         value="{{ old('title') }}"
                     >
                 </div>
+                @error('title')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
                 <div class="form-group">
                     <label for="description">Описание </label>
                     <textarea

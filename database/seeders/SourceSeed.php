@@ -12,6 +12,20 @@ class SourceSeed extends Seeder
      *
      * @return void
      */
+
+    private array $sources = [
+        'ABYZ News Links',
+        'Agence France Presse (AFP)',
+        'BBC News',
+        'CNN.com',
+        'Euronews',
+        'Reuters',
+        'World News',
+        'Bloomberg',
+        'Daily News',
+        'The New York Times'
+    ];
+
     public function run()
     {
         \DB::table('sources')->insert($this->getData());
@@ -24,7 +38,7 @@ class SourceSeed extends Seeder
         for($i = 0; $i < 10; $i++)
         {
             $data[] = [
-                'title'       => $faker->sentence(mt_rand(3,10)),
+                'title'       => $this->sources[$i],
                 'description' => $faker->text(mt_rand(100,200)),
                 'updated_at'  => now(),
                 'created_at'  => now()

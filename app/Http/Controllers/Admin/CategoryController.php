@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CategoryCreateRequest;
+use App\Http\Requests\CategoryUpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::withCount('news')->get();
+        $categories = Category::withCount('news')->paginate(config('categories.paginate'));
         return view('admin.categories.index', [
             'categoryList' => $categories
         ]);
@@ -28,7 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
@@ -37,9 +39,18 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryCreateRequest $request)
     {
-        //
+        $category = Category::create($request->validated());
+        if($category) {
+            return redirect()
+                ->route('admin.categories.index')
+                ->with('success', trans('messages.admin.categories.create.success'));
+        }
+
+        return back()
+            ->with('error', trans('messages.admin.categories.create.fail'))
+            ->withInput();
     }
 
     /**
@@ -73,20 +84,18 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryUpdateRequest $request, Category $category)
     {
-        $category = $category->fill(
-            $request->only(['title', 'description'])
-        )->save();
+        $category = $category->fill($request->validated())->save();
 
         if($category) {
             return redirect()
                 ->route('admin.categories.index')
-                ->with('success', 'Редактирование записи удалось');
+                ->with('success', trans('messages.admin.categories.update.success'));
         }
 
         return back()
-            ->with('error', 'Редактирование записи не удалось')
+            ->with('error', trans('messages.admin.categories.update.fail'))
             ->withInput();
     }
 

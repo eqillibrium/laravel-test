@@ -53,7 +53,11 @@
                         name="title"
                         id="title"
                         value="{{ $news->title }}"
+
                     >
+                    @error('title')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="author">Автор</label>
@@ -64,6 +68,9 @@
                         id="author"
                         value="{{ $news->author }}"
                     >
+                    @error('author')
+                    <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group">
                     <label for="description">Описание </label>

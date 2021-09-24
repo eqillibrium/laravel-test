@@ -6,10 +6,9 @@
         <h1 class="h3 mb-0 text-gray-800">Редактировать категорию</h1>
     </div>
     <div class="row">
-        @include('inc.messages')
         <div class="col-md-12">
             @include('inc.messages')
-            <form method="post" action="{{ route('admin.categories.update', ['category' => $category]) }}">
+            <form method="post" action="{{ route('admin.categories.store', ['category' => $category]) }}">
                 @csrf
                 @method('put')
                 <div class="form-group">
@@ -22,6 +21,9 @@
                         value="{{ $category->title }}"
                     >
                 </div>
+                @error('title')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
                 <div class="form-group">
                     <label for="description">Описание </label>
                     <textarea
