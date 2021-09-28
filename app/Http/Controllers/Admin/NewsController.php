@@ -100,7 +100,6 @@ class NewsController extends Controller
      */
     public function update(NewsUpdateRequest $request, News $news)
     {
-
         $news = $news->fill($request->validated())->save();
 
         if($news) {

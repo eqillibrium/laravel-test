@@ -31,5 +31,10 @@
             <i class="fas fa-fw fa-list"></i>
             <span>Новости</span></a>
     </li>
+    <li class="nav-item @if(request()->routeIs('admin.users.*')) active @endif">
+        <a class="nav-link" href="{{ route('admin.users.index') }}">
+            <i class="fas fa-fw fa-list"></i>
+            <span>Пользователи</span></a>
+    </li>
 
 </ul>

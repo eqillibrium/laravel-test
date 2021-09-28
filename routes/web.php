@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\NewsController;
+use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Account\IndexController as AccountController;
 use \App\Http\Controllers\StaticPageController;
 
 /*
@@ -18,12 +21,24 @@ use \App\Http\Controllers\StaticPageController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
-    Route::resource('categories', AdminCategoryController::class);
-    Route::resource('news', AdminNewsController::class);
+//Auth
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/account', AccountController::class)->name('account');
+    Route::get('logout', function () {
+       \Auth::logout();
+       return redirect()->route('login');
+    })->name('logout');
+
+    //Admin
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function() {
+        Route::get('/', AdminController::class)->name('index');
+        Route::resource('categories', AdminCategoryController::class);
+        Route::resource('news', AdminNewsController::class);
+        Route::resource('users', AdminUserController::class);
+    });
 });
 
 //news
@@ -44,3 +59,7 @@ Route::get('/feedback', [StaticPageController::class, 'feedback'])
     ->name('feedback');
 Route::get('/dataRequestForm', [StaticPageController::class, 'dataRequestForm'])
     ->name('dataRequestForm');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
