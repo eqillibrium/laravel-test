@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\NewsController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Admin\ParserController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Account\IndexController as AccountController;
+use App\Http\Controllers\SocialController as SocialController;
 use \App\Http\Controllers\StaticPageController;
 
 /*
@@ -31,6 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
        \Auth::logout();
        return redirect()->route('login');
     })->name('logout');
+    Route::resource('updatePassword', \App\Http\Controllers\Auth\UpdatePasswordController::class);
 
     //Admin
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin'], function() {
@@ -38,6 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('categories', AdminCategoryController::class);
         Route::resource('news', AdminNewsController::class);
         Route::resource('users', AdminUserController::class);
+        Route::get('/parser', ParserController::class);
     });
 });
 
@@ -59,6 +63,11 @@ Route::get('/feedback', [StaticPageController::class, 'feedback'])
     ->name('feedback');
 Route::get('/dataRequestForm', [StaticPageController::class, 'dataRequestForm'])
     ->name('dataRequestForm');
+
+Route::group(['middleware' => 'guest'], function () {
+   Route::get('/vk/start', [SocialController::class, 'start'])->name('vk.start');
+   Route::get('/vk/callback', [SocialController::class, 'callback'])->name('vk.callback');
+});
 
 Auth::routes();
 

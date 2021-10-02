@@ -37,4 +37,10 @@ class ConfirmPasswordController extends Controller
     {
         $this->middleware('auth');
     }
+
+    public function showUpdateForm()
+    {
+        return view('auth.passwords.update');
+    }
+
 }
