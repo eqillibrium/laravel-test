@@ -14,7 +14,7 @@ class News extends Model
     protected $table = "news";
 
     protected $fillable = [
-      'category_id', 'source_id', 'title', 'author', 'description'
+      'category_id', 'source_id', 'title', 'author', 'image', 'description',
     ];
 
     public function category() : BelongsTo

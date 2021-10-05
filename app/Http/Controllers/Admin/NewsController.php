@@ -8,6 +8,7 @@ use App\Http\Requests\NewsUpdateRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Models\Source;
+use App\Services\UploadService;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -100,7 +101,15 @@ class NewsController extends Controller
      */
     public function update(NewsUpdateRequest $request, News $news)
     {
-        $news = $news->fill($request->validated())->save();
+        $data = $request->validated();
+
+        if($request->hasFile('image')) {
+            $uploadService = app(UploadService::class);
+            $imageUrl = $uploadService->upload($request->file('image'));
+            $data['image'] = $imageUrl;
+        }
+
+        $news = $news->fill($data)->save();
 
         if($news) {
             return redirect()
