@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class UploadService
 {
@@ -16,13 +17,11 @@ class UploadService
         $originalExtension = $file->getClientOriginalExtension();
         $fineName = uniqid('u_') . "." . $originalExtension;
 
-
         $filePath = $file->storeAs($path, $fineName, 'public');
-        dd($filePath);
+//        $filePath = Storage::putFileAs($path, $file, $fineName, 'public');
         if($filePath) {
             return $filePath;
         }
-
         return null;
     }
 }

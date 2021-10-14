@@ -68,5 +68,7 @@
 
 <!-- Custom scripts for all pages-->
 <script src="{{ asset('assets/js/sb-admin-2.js') }}"></script>
+
+@stack('js')
 </body>
 </html>

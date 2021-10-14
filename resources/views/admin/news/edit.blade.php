@@ -87,8 +87,8 @@
                         class="form-control"
                         name="description"
                         id="description"
-                        value="{{ $news->description }}"
                     >
+                        {{ $news->description }}
                     </textarea>
                 </div>
                 <button type="submit" class="btn btn-success">Сохранить</button>
@@ -96,3 +96,23 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .then( editor => {
+                console.log( editor );
+            } )
+            .catch( error => {
+                console.error( error );
+            } );
+    </script>
+
+@endpush
+
+
+
+

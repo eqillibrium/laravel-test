@@ -41,8 +41,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('categories', AdminCategoryController::class);
         Route::resource('news', AdminNewsController::class);
         Route::resource('users', AdminUserController::class);
-        Route::get('/parser', ParserController::class);
+        Route::get('/parser', ParserController::class)->name('parser');
     });
+});
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 
 //news

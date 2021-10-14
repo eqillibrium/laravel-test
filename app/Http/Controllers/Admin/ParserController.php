@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Contract\Parser;
+use App\Jobs\NewsJob;
 use App\Models\News;
 use Illuminate\Http\Request;
 use JetBrains\PhpStorm\NoReturn;
@@ -18,22 +19,27 @@ class ParserController extends Controller
      * @param Parser $service
      * @return void
      */
-    #[NoReturn] public function __invoke(Request $request, Parser $service) : void
+    #[NoReturn] public function __invoke(Request $request, Parser $service)
     {
-        $array = $service->parse('https://news.yandex.ru/music.rss');
-        $news = [];
-        foreach ($array['news'] as $el) {
-            $news[] = [
-                'category_id' => 5,
-                'source_id'   => 1,
-                'title'       => $el['title'],
-                'image'       => null,
-                'author'      => 'admin',
-                'description' => $el['description'],
-            ];
-            dump($el);
+        $urls = [
+            'https://news.yandex.ru/gadgets.rss',
+            'https://news.yandex.ru/index.rss',
+            'https://news.yandex.ru/martial_arts.rss',
+            'https://news.yandex.ru/health.rss',
+            'https://news.yandex.ru/games.rss',
+            'https://news.yandex.ru/internet.rss',
+            'https://news.yandex.ru/cyber_sport.rss',
+            'https://news.yandex.ru/movies.rss',
+            'https://news.yandex.ru/cosmos.rss',
+            'https://news.yandex.ru/culture.rss',
+            'https://news.yandex.ru/fire.rss',
+            'https://news.yandex.ru/music.rss',
+        ];
+
+        foreach ($urls as $url) {
+            dispatch(new NewsJob($url));
         }
-        $newsList = (new \App\Models\News)->fill($news)->save();
-        dump($newsList);
+
+        return back()->with('success', 'Новости добавлены');
     }
 }
